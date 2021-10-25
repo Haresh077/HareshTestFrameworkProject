@@ -4,7 +4,7 @@ import pytest
 @pytest.fixture()
 def setup(browser):
     if browser=='chrome':
-        driver=webdriver.Chrome(executable_path="D:\\Python\\chromedriver_win32\\chromedriver_94.0.exe")
+        driver=webdriver.Chrome(executable_path=".\\\\Python\\chromedriver_win32\\chromedriver_94.0.exe")
         driver.maximize_window()
     elif browser=='firefox':
         driver=webdriver.firefox()
