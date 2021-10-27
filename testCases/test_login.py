@@ -1,7 +1,7 @@
 from pageObjects.LoginPage import Login
 from utilities.readProperties import Readconfig
-
 from utilities.customLogger import LogGen
+import pytest
 
 
 class Test_001_login:
@@ -22,8 +22,7 @@ class Test_001_login:
             self.driver.close()
             self.logger.info("**************Homepage title test is passed***********")
         else:
-            self.driver.save_screenshot(
-                "C:\\Users\\Haresh\\PycharmProjects\\hareshnopcomm\\Screenshots\\" + "test_homePageTitle.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_homePageTitle.png")
             self.driver.close()
             self.logger.error("**************Homepage title test is failed***********")
             assert False
@@ -42,8 +41,7 @@ class Test_001_login:
             self.logger.info("**************Login test is passed***********")
             self.driver.close()
         else:
-            self.driver.save_screenshot(
-                "C:\\Users\\Haresh\\PycharmProjects\\hareshnopcomm\\Screenshots\\" + "test_login.png")
+            self.driver.save_screenshot(".\\Screenshots\\" + "test_login.png")
             self.driver.close()
             self.logger.error("**************login test is failed***********")
             assert False

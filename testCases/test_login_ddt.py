@@ -9,65 +9,48 @@ from utilities import XLutilities
 class Test_002_DDT_login:
     baseURL = Readconfig.getApplicationURL()
     logger = LogGen.loggen()
-    path=".//TestData/Logindetais.xlsx"
+    path="D:\\Haresh\\PythonQA\\HareshTestFrameworkProject\\TestData\\Logindetails.xlsx"
 
-    def test_login_ddt(self, setup):
+    def test_login(self, setup):
         self.logger.info("**************Test_002_DDT_login***********")
         self.logger.info("**************Verify login DDT test***********")
         self.driver = setup
         self.driver.get(self.baseURL)
-        act_title = self.driver.title
-
-        if act_title == "Your store. Login":
-            assert True
-            self.driver.close()
-            self.logger.info("**************Homepage title test is passed***********")
-        else:
-            self.driver.save_screenshot(
-                "C:\\Users\\Haresh\\PycharmProjects\\hareshnopcomm\\Screenshots\\" + "test_homePageTitle.png")
-            self.driver.close()
-            self.logger.error("**************Homepage title test is failed***********")
-            assert False
-
-    def test_login(self, setup):
-        self.logger.info("**************Verify login test***********")
-        self.driver = setup
-        self.driver.get(self.baseURL)
         self.lp = Login(self.driver)
-
-        self.rows=XLutilities.getRowCount(self.path,'Sheet1')
-        print("Number of rows",self.rows)
+        self.rows=XLutilities.getRowCount(self.path, 'Sheet1')
+        print("Number of rows", self.rows)
         lst_status=[]
 
         for r in range(2,self.rows+1):
-            self.user=XLutilities.readdata(self.path,'Sheet1',r,1)
-            self.password=XLutilities.readdata(self.path,'Sheet1',r,2)
-            self.exp=XLutilities.readdata(self.path,'Sheet1',r,3)
+            self.user=XLutilities.readdata(self.path,'Sheet1', r, 1)
+            self.password = XLutilities.readdata(self.path, 'Sheet1',r, 2)
+            self.exp= XLutilities.readdata(self.path, 'Sheet1', r, 3)
 
+            self.lp.setusername(self.user)
+            self.lp.setpassword(self.password)
+            self.lp.clicklogin()
+            self.lp.clicklogout()
+            time.sleep(3)
 
-        self.lp.setusername(self.usern)
-        self.lp.setpassword(self.password)
-        self.lp.clicklogin()
-        time.sleep(3)
+            act_title = self.driver.title
+            exp_title = "Dashboard / nopCommerce administration"
+            if act_title == exp_title:
+                if self.exp == "Pass":
+                    self.logger.info("*****Pass")
+                    self.lp.clicklogout()
+                    lst_status.append("Pass")
+                elif self.exp == "Fail":
+                    self.logger.info("*****failed")
+                    #self.lp.clicklogout()
+                    lst_status.append("Fail")
 
-        act_title = self.driver.title
-        exp_title = "Dashboard / nopCommerce administration"
-        if exp_title==act_title:
-            if self.exp=="Pass":
-                self.logger.info("*****Pass")
-                self.lp.clicklogout()
-                lst_status.append("Pass")
-            elif self.exp == "Fail":
-                self.logger.info("*****failed")
-                self.lp.clicklogout()
-                lst_status.append("Fail")
-        elif exp_title != act_title:
-            if self.exp == "Pass":
-                self.logger.info("*****Failed")
-                lst_status.append("Pass")
-            elif self.exp == "Fail":
-                self.logger.info("*****Passed")
-                lst_status.append("Pass")
+            elif act_title != exp_title:
+                if self.exp == "Pass":
+                    self.logger.info("*****Failed")
+                    lst_status.append("Pass")
+                elif self.exp == "Fail":
+                    self.logger.info("*****Passed")
+                    lst_status.append("Pass")
         if "Fail" not in lst_status:
             self.logger.info("***Login DDT test passed")
             self.driver.close()
