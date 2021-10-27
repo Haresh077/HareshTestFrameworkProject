@@ -13,7 +13,7 @@ def setup(browser):
     elif browser == 'IE':
         driver = webdriver.ie
     else:
-        drive = webdriver.chrome(executable_path="D:\Haresh\PythonQA\HareshTestFrameworkProject\Drivers\chromedriver950.exe")
+        drive = webdriver.chrome(executable_path="D:\\Haresh\\PythonQA\\HareshTestFrameworkProject\\Drivers\\chromedriver950.exe")
     return driver
 
 

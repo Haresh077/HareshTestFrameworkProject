@@ -41,7 +41,7 @@ class Test_002_DDT_login:
                     lst_status.append("Pass")
                 elif self.exp == "Fail":
                     self.logger.info("*****failed")
-                    #self.lp.clicklogout()
+                    self.lp.clicklogout()
                     lst_status.append("Fail")
 
             elif act_title != exp_title:
